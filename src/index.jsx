@@ -1,20 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { connect } from 'react-redux'
-
-import Actions from './actions.js'
-
-class BotView extends React.Component {
-	// boolean altKey
+class View extends React.Component {
 	// number charCode
-	// boolean ctrlKey
-	// boolean getModifierState(key)
 	// string key
 	// number keyCode
-	// boolean metaKey
-	// boolean repeat
-	// boolean shiftKey
 
 	// switch to prop init syntax?
 

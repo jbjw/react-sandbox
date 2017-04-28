@@ -1,33 +1,86 @@
-// var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
-var BUILD_DIR = path.resolve(__dirname, 'dist');
-var APP_DIR = path.resolve(__dirname, 'src');
+const path = require('path')
 
-var config = {
+const DIST = path.resolve(__dirname, 'dist')
+const SRC = path.resolve(__dirname, 'src')
+
+module.exports = {
+	entry: path.resolve(SRC, 'main.jsx'),
+	output: {
+		path: DIST,
+		filename: 'bundle.js',
+	},
+	module: {
+		rules: [
+			{
+				test: /\.jsx?$/,
+				include: [SRC],
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+				options: {
+					presets: ['es2015', 'react'],
+				},
+			},
+			{
+				test: /\.jsx?$/,
+				enforce: 'pre', // what
+				include: [SRC],
+				exclude: /node_modules/,
+				loader: 'eslint-loader',
+				options: {
+					configFile: './.eslintrc',
+				},
+			},
+			{
+				test: /\.css?$/,
+				include: [SRC],
+				exclude: /node_modules/,
+				use: [
+					'style-loader',
+					'css-loader',
+				]
+			},
+		],
+	},
+	plugins: [
+		new CopyWebpackPlugin([
+			{
+				from: 'src/index.html',
+				to: 'index.html'
+			},
+		]),
+
+		new CopyWebpackPlugin([
+			{
+				from: 'src/index.css',
+				to: 'index.css'
+			},
+		]),
+
+		new OpenBrowserPlugin({
+			url: 'http://localhost:3000/'
+		}),
+	],
+	// devServer: {
+	//   historyApiFallback: true,
+	//   host: '0.0.0.0',
+	//   port: 3000,
+	//   stats: 'errors-only',
+	//   noInfo: true,
+	//   watchOptions: {
+	//     aggregateTimeout: 300,
+	//     poll: 1000,
+	//     ignored: /node_modules/
+	//   }
+	// },
+	devtool: 'source-map',
 	devServer: {
 		inline: true,
 		// hot: true,
 		contentBase: 'dist/',
 		port: 80,
 	},
-	entry: path.resolve(APP_DIR, 'main.js'),
-	output: {
-		path: BUILD_DIR,
-		filename: 'bundle.js',
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.jsx?$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				query: {
-					presets: ['es2015', 'react'],
-				},
-			},
-		],
-	},
-};
-
-module.exports = config;
+}
