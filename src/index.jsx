@@ -84,25 +84,3 @@ function ChatMessage(props) {
 // <Players></Players>
 // <Chat></Chat>
 // <Console></Console>
-
-store.dispatch( Actions.do() )
-
-function mapStateToProps(state) {
-	return { logs: state.logs }
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		sendChat: msg => dispatch( Actions.sendChat( msg ) )
-		// getNetNum: () => store.dispatch( Actions.fetchNetNum() )
-		// getNetNum: () => { Actions.fetchNetNum() }
-		if typeof arg === 'undefined' // check out undefined dispatch
-
-
-	}
-}
-
-export default connect(
-	mapStateToProps,
-	// mapDispatchToProps,
-)(BotView);
